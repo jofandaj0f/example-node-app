@@ -1,0 +1,22 @@
+html body {
+  background: url(sw.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  color: #d4c5ca;
+  font-size: 18px;
+}
+.jumbotron {
+  background-color: rgba(64, 68, 69, 0.9);
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #b41031;
+  text-align: center;
+}
+
+.container {
+  width: 98%;
+}

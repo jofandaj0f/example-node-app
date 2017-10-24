@@ -1,0 +1,30 @@
+#container
+{
+  text-align: center;
+}
+#password
+{
+  width: 300px;
+  height: 40px;
+  font-size:25px;
+  background-color: #b41031;
+  color: #d4c5ca;
+}
+#submit
+{
+  width: 150px;
+  border-radius: 5px;
+  border-color: #090506;
+  color: #090506;
+
+}
+#submit:hover {
+  background-color: #333;
+  color: inherit;
+}
+
+h1 {
+  margin-bottom: 30%;
+  text-shadow: 5px 5px rgba(255, 0, 0, 0.5);
+  font-size: 86px;
+}

@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+        <script type="text/javascript" src="../js/lookup.js"></script>
+        <title>Look Up</title>
+</head>
+
+  <body>
+      <div class="container">
+          <header>
+              <% include ../partials/header %>
+          </header>
+          <main>
+              <div class="loader" position="absolute"></div>
+              <div id="page">
+                  <form id="enterairingid">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Please Enter Airing ID</label>
+                          <input type="text" class="form-control" id="airingid-searched" placeholder="Airing ID">
+                      </div>
+                      <button type="submit" class="btn btn-default" id="submit-search">Search ID</button>
+                  </form>
+                </div>
+                <% include ../partials/event_accordian %>
+          </main>
+      </div>
+  </body>
+
+</html>
