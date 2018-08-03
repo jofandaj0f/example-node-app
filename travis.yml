@@ -7,3 +7,6 @@ install:
 script:
   - npm lint
   - npm test
+branches:
+  except:
+  - gh-pages
