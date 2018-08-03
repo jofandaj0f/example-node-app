@@ -11,12 +11,7 @@ module.exports = {
 	logger: require('./logger'),
 	expresslogger: require('./expresslogger'),
 	users: require('./users'),
-	convivaClient: require('./convivaclient'),
-	radioClient: require('./radioclient'),
 	//Connection: conn,
 	poolVision: require('./pooldb'),
-	AuthService: authService,
-	uplynkClient: require('./uplynkClient'),
-	tvlistings: require('./tvlistings'),
-	pccAPI: require('./pccAPI')
+	AuthService: authService
 }
