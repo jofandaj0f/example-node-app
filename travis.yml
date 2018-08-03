@@ -1,3 +1,9 @@
 language: node_js
-sudo: enabled
-os: ubuntu
+sudo: false
+node_js:
+  - "4.1"
+  - "4.0"
+install:
+  - npm install
+script:
+  - npm test
