@@ -1,8 +1,9 @@
 language: node_js
-sudo: false
+sudo: true
 node_js:
-  - "node"
+  - "0.5.1"
 install:
   - npm install
 script:
+  - npm lint
   - npm test
