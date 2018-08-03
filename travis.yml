@@ -2,7 +2,7 @@ language: node_js
 sudo: true
 node_js:
   - "node"
-  - "0.5.1"
+  - "8"
 before_install:
   - npm install npm@latest -g
 before_script:
