@@ -13,5 +13,6 @@ module.exports = {
 	users: require('./users'),
 	//Connection: conn,
 	poolVision: require('./pooldb'),
-	AuthService: authService
+	AuthService: authService,
+	enps: require('./enps')
 }

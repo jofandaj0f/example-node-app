@@ -6,6 +6,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 //const login = require('./routes/login');
+const enps = require('./routes/enpsapi');
 const favicon = require('serve-favicon');
 const middleware = require('./middleware');
 const config = require('./config');
@@ -35,8 +36,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CONFIGURE ROUTES
-// app.use('/api/v1/',);
-//app.use('/login', login);
+app.use('/api/v1/', enps);
+// app.use('/login', login);
 app.use('/', index);
 
 //configure logging
