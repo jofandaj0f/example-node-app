@@ -23,6 +23,10 @@ function findMOS(zone){
         })
       }).done(function(data1){
         console.log("Searches: ", data1);
+        if(data1 === undefined || data1 === null || data1.length === 0) {
+          alert('There are no activated rundowns on this Fios Zone');
+          location.reload();
+        }
         $('#blah').remove();
         $('#header').append('<h4 id="blah">Finding MOS IDs...</h4>');
         $.ajax({

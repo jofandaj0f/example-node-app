@@ -118,9 +118,6 @@ var enps = {
         });
   },
   getMultiplePlanningContent : function(serviceAddress, nomTokenId, recs){
-    if(recs === undefined || recs === null || recs.length === 0) {
-      logger.info('UNDEFINED OBJECT PLACED INTO FUNCTION');
-    }
     var options = { method: 'POST',
       url: serviceAddress + '/api/RundownContent',
       headers:
