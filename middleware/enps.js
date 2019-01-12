@@ -95,19 +95,23 @@ var enps = {
                   reject(err);
               } else {
                   var rundowns = [];
-                  for (var i = 0; i < body['SearchResults'].length; i++) {
-                    var z = body['SearchResults'][i];
-                    if (z.ObjectProperties[10].FieldValue) {
-                      var runObj = {
-                        database: z.ListData.ENPSDatabase,
-                        path: z.ListData.Path,
-                        guid: z.ListData.Guid,
-                        returnText: false
+                  if (body['SearchResults'] === undefined || body['SearchResults'] === null || body['SearchResults'].length === 0) {
+                    resolve(rundowns);
+                  } else {
+                    for (var i = 0; i < body['SearchResults'].length; i++) {
+                      var z = body['SearchResults'][i];
+                      if (z.ObjectProperties[10].FieldValue) {
+                        var runObj = {
+                          database: z.ListData.ENPSDatabase,
+                          path: z.ListData.Path,
+                          guid: z.ListData.Guid,
+                          returnText: false
+                        }
+                        rundowns.push(runObj);
                       }
-                      rundowns.push(runObj);
                     }
+                  // logger.info('enps.js SEARCH : ', rundowns);
                   }
-                // logger.info('enps.js SEARCH : ', rundowns);
                 resolve(rundowns);
                 //[ { database: 'WRNN-ENPS1',
                     // path: 'P_HVFIOS\\W',
@@ -118,7 +122,8 @@ var enps = {
         });
   },
   getMultiplePlanningContent : function(serviceAddress, nomTokenId, recs){
-    var options = { method: 'POST',
+    var options = {
+      method: 'POST',
       url: serviceAddress + '/api/RundownContent',
       headers:
        { 'Content-Type': 'application/json',

@@ -61,6 +61,7 @@ function findMOS(zone){
             }
           }
         });
+        $('#blah').remove();
       });
     });
   }
