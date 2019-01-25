@@ -10,7 +10,7 @@ var pool = mysql.createPool(config.pool_config);
 //Object does not allow Pool connections to be created in that object.
 //Primary object with the jumpinthepool function
 //API's use this to call MYSQL.
-var poolVision = {
+var pooldb = {
   jumpinthepool: function(msg){
     //logger.debug('Ingest Message: ', msg);
     return new Promise(function(resolve, reject) {
@@ -37,7 +37,7 @@ var poolVision = {
               }
               conn.on('error', function(err) {
                 if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-                    logger.error(err.code, 'Awww shit a timeout');
+                    logger.error(err.code, 'Awww a timeout');
                     //setInterval(jumpinthepool(msg), 30000); // lost due to either server restart, or a
                 } else { // connnection idle timeout (the wait_timeout
                     throw err; // server variable configures this)
@@ -53,4 +53,4 @@ var poolVision = {
   }
 };
 
-module.exports = poolVision;
+module.exports = pooldb;

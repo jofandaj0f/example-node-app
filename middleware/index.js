@@ -11,8 +11,9 @@ module.exports = {
 	logger: require('./logger'),
 	expresslogger: require('./expresslogger'),
 	users: require('./users'),
-	//Connection: conn,
-	poolVision: require('./pooldb'),
+	enpsdb: require('./watchfile'),
+	// pooldb: require('./pooldb'),
 	AuthService: authService,
-	enps: require('./enps')
+	enps: require('./enps'),
+	watchfile: require('./watchfile')
 }

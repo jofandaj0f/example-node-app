@@ -17,6 +17,8 @@ const index = require('./routes/index');
 // Create an eventEmitter object
 //var eventEmitter = new events.EventEmitter();
 var io = require('socket.io');
+var chokidar = require('chokidar');
+var fs = require('fs');
 
 var app = express();
 
@@ -74,6 +76,47 @@ listener.sockets.on('connection', function(socket){
 listener.sockets.on('error', function (exception) {
    return middleware.logger.info('error event in socket.send(): ' + exception);
 });
+
+var watcher = chokidar.watch("C:/Users/jferraro/Documents/Test_AsRun", {ignored: /^\./, persistent: true});
+
+watcher
+  .on('add', function(path) {
+    middleware.logger.info('File', path, 'has been added');
+    fs.readFile(path, function(err, buf) {
+      // middleware.logger.info(buf.toString());
+    });
+  })
+  .on('change', function(path) {middleware.logger.info('File', path, 'has been changed');})
+  .on('unlink', function(path) {console.log('File', path, 'has been removed');})
+  .on('error', function(error) {console.error('Error happened', error);});
+
+  var db = require('node-mysql');
+  var DB = db.DB;
+  var BaseRow = db.Row;
+  var BaseTable = db.Table;
+  var box = new DB({
+      host     : 'localhost',
+      user     : 'node_data',
+      password : 'ryebrook',
+      database : 'crispin'
+  });
+  var basicTest = function(cb) {
+      box.connect(function(conn, cb) {
+          cps.seq([
+              function(_, cb) {
+                  conn.query('select * from users limit 1', cb);
+              },
+              function(res, cb) {
+                  middleware.logger.info(res);
+                  cb();
+              }
+          ], cb);
+      }, cb);
+  };
+  basicTest(function(d){middleware.logger.info('Ran db test: ' + d)})
+
+
+
 // var emitter = getMetricEmitter();
 // if (emitter.gcEnabled) {
 //   emitter.on('gc', (gc) => middleware.logger.debug(gc.type + ': ' + gc.duration));
