@@ -1,3 +1,4 @@
+'use strict'
 var request = require("request");
 var logger = require('./logger');
 var enps = {

@@ -15,5 +15,7 @@ module.exports = {
 	// pooldb: require('./pooldb'),
 	AuthService: authService,
 	enps: require('./enps'),
-	watchfile: require('./watchfile')
+	watchfile: require('./watchfile'),
+	zapier: require('./zapier'),
+	mongo: require('./mongoclient')
 }

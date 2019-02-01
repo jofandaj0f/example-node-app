@@ -19,6 +19,7 @@ const index = require('./routes/index');
 var io = require('socket.io');
 var chokidar = require('chokidar');
 var fs = require('fs');
+// var mongodb = require('mongodb');
 
 var app = express();
 
@@ -76,61 +77,38 @@ listener.sockets.on('connection', function(socket){
 listener.sockets.on('error', function (exception) {
    return middleware.logger.info('error event in socket.send(): ' + exception);
 });
-
-var watcher = chokidar.watch("C:/Users/jferraro/Documents/Test_AsRun", {ignored: /^\./, persistent: true});
-
+var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun";
+var watcher = chokidar.watch(folderAsRun, {ignored: /^\./, persistent: true});
+middleware.mongo.testConnection();
 watcher
   .on('add', function(path) {
     middleware.logger.info('File', path, 'has been added');
-    fs.readFile(path, function(err, buf) {
-      // middleware.logger.info(buf.toString());
-    });
+    // var lineReader = require('readline').createInterface({
+    //   input: require('fs').createReadStream(path)
+    // });
+    // var myArray = [];
+    // lineReader.on('line', function (l) {
+    //   l.toString();
+    //   myArray.push({
+    //     "date" : l.substring(25,35),
+    //     "time" : l.substring(35,46),
+    //     "mos" : l.substring(46,55),
+    //     "slug" : l.substring(126,176),
+    //     "slug2" : l.substring(176,217),
+    //     "vs" : l.substring(226,231),
+    //     "duration" : l.substring(461,472)
+    //   });
+    // });
+    // lineReader.on('close', function(){
+    //   // middleware.logger.info(myArray);
+    //   middleware.zapier.WebHook(myArray, 'zoho');
+    //   middleware.logger.info('Done');
+    // });
   })
   .on('change', function(path) {middleware.logger.info('File', path, 'has been changed');})
-  .on('unlink', function(path) {console.log('File', path, 'has been removed');})
-  .on('error', function(error) {console.error('Error happened', error);});
+  .on('unlink', function(path) {middleware.logger.info('File', path, 'has been removed');})
+  .on('error', function(error) {middleware.logger.error('Error happened', error);});
 
-  var db = require('node-mysql');
-  var DB = db.DB;
-  var BaseRow = db.Row;
-  var BaseTable = db.Table;
-  var box = new DB({
-      host     : 'localhost',
-      user     : 'node_data',
-      password : 'ryebrook',
-      database : 'crispin'
-  });
-  var basicTest = function(cb) {
-      box.connect(function(conn, cb) {
-          cps.seq([
-              function(_, cb) {
-                  conn.query('select * from users limit 1', cb);
-              },
-              function(res, cb) {
-                  middleware.logger.info(res);
-                  cb();
-              }
-          ], cb);
-      }, cb);
-  };
-  basicTest(function(d){middleware.logger.info('Ran db test: ' + d)})
-
-
-
-// var emitter = getMetricEmitter();
-// if (emitter.gcEnabled) {
-//   emitter.on('gc', (gc) => middleware.logger.debug(gc.type + ': ' + gc.duration));
-// }
-// if (emitter.usageEnabled) {
-//   emitter.on('usage', (usage) => middleware.logger.debug('ru'));
-// }
-// if (emitter.loopEnabled) {
-//   setInterval(function printLoopMetrics() {
-//     var loopMetrics = emitter.getLoopMetrics();
-//     middleware.logger.debug("Loop time:", loopMetrics.loop);
-//     middleware.logger.debug("IO wait time:", loopMetrics.ioWait);
-//   }, 1000);
-// }
 //ACTIONS TO DO WHEN SHUTDOWN IS SENT TO THE SERVER.
 process.on('SIGINT', function() {
 
