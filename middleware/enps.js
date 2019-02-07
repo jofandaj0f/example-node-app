@@ -8,11 +8,11 @@ var enps = {
       url: serviceAddress + '/api/Logon',
       qs:
        { staffUserId: userName,
-         domainuserId: 'enpsapi',
+         domainuserId: userName,
          password: password,
          domainName: domainName,
          devKey: devKey,
-         iClientType: '7' },
+         iClientType: '9' },
       headers:
        {
          'Cache-Control': 'no-cache' }
@@ -41,7 +41,7 @@ var enps = {
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
 
-      console.log(body);
+      logger.info(body);
     });
   },
   search: function(serviceAddress, nomTokenId, database, location){
@@ -122,28 +122,104 @@ var enps = {
           });
         });
   },
-  getMultiplePlanningContent : function(serviceAddress, nomTokenId, recs){
-    var options = {
-      method: 'POST',
-      url: serviceAddress + '/api/RundownContent',
+  listRundowns : function(serviceAddress, nomTokenId, recs){
+    var options = { method: 'POST',
+      url: serviceAddress + '/api/Lists',
       headers:
-       { 'Content-Type': 'application/json',
+       { 'cache-control': 'no-cache',
+         'Content-Type': 'application/json; charset=utf-8',
          'X-ENPS-TOKEN': nomTokenId },
-      body: recs,
-      json: true };
+      body: JSON.stringify(recs)
+      //'{\r\n  "Database": "WRNN-ENPS1",\r\n  "ENPSListParameters": [{\r\n    "Path": "P_NJFIOS\\\\W",\r\n    "Guid": "",\r\n    "Type": 2,\r\n    "StartTime": "1800-03-01T05:00:00.000Z",\r\n    "EndTime": "1800-03-01T05:00:00.000Z",\r\n    "Priority": null,\r\n    "UnreadBy": ""\r\n  }]\r\n}'
+    };
+    return new Promise(function(resolve, reject){
+      request.post(options, function (err, response, body) {
+        if (err) {
+            reject(err);
+        } else {
+            // logger.info('enps.js : ', body);
+            var rundowns = [];
+            var ro = JSON.parse(body);
+            if (ro['Records'] === undefined || ro['Records'] === null || ro['Records'].length === 0) {
+              resolve(rundowns);
+            } else {
+              for (var i = 0; i < ro['Records'].length; i++) {
+                var z = ro['Records'][i];
+                if (z.ObjectProperties[3].FieldValue) {
+                  var runObj = {
+                    guid: z.ListData.Guid,
+                    title: z.ListData.Title
+                  }
+                  rundowns.push(runObj);
+                }
+              }
+            }
+          resolve(rundowns);
+        }
+      });
+    });
 
+  },
+  getROContent : function(serviceAddress, nomTokenId, recs){
+    var options = { method: 'GET',
+      url: serviceAddress + '/api/RundownContent',
+      qs: recs,
+      headers:
+       { 'cache-control': 'no-cache',
+         'Content-Type': 'application/json; charset=utf-8',
+         'X-ENPS-TOKEN': nomTokenId }
+       };
       // Return new promise
       return new Promise(function(resolve, reject) {
        // Do async job
-          request.post(options, function(err, resp, body) {
+          request.get(options, function(err, resp, body) {
               if (err) {
                   reject(err);
               } else {
-                resolve(body);
+                resolve(JSON.parse(body));
             }
           });
         });
-      }
+      },
+      logout : function(serviceAddress, nomTokenId){
+        var options = { method: 'GET',
+          url: serviceAddress + '/api/Logout',
+          headers:
+           { 'cache-control': 'no-cache',
+             'X-ENPS-TOKEN': nomTokenId }
+           };
+         // Return new promise
+         return new Promise(function(resolve, reject) {
+          // Do async job
+             request.get(options, function(err, resp, body) {
+                 if (err) {
+                     reject(err);
+                 } else {
+                   resolve(JSON.parse(body));
+               }
+             });
+           });
+      },
+      binarySearch : function(x, len, element){
+        var low = 0;
+        var high = len;
+
+        while(low+1 < high){
+            var test = Math.floor((low+high)/2);
+           // console.log("Test : " + test);
+            if(x[test] > element){
+                high = test;
+            }else{
+                low = test;
+            }
+        }
+        if(x[low].FieldName == element || x[low].FieldValue == element){
+            return low;
+        }else{
+            return false;
+        }
+
+    }
 }
 
 

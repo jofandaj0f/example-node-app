@@ -43,6 +43,8 @@
     "request": "^2.88.0",
     "requirejs": "^2.3.6",
     "serve-favicon": "^2.3.2",
+    "signalr-client": "0.0.19",
+    "signalr-js-client": "^1.0.0-rc.2",
     "utf8": "^2.1.2",
     "winston": "^2.4.4",
     "xml2js": "^0.4.19"

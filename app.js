@@ -1,10 +1,10 @@
-'use strict';
-
-// const newrelic = require('newrelic');
+'use strict'
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const signalR = require('signalr-client');
 //const login = require('./routes/login');
 const enps = require('./routes/enpsapi');
 const favicon = require('serve-favicon');
@@ -12,14 +12,10 @@ const middleware = require('./middleware');
 const config = require('./config');
 const test = require('./test');
 const index = require('./routes/index');
-// Import events module
-//var events = require('events');
-// Create an eventEmitter object
-//var eventEmitter = new events.EventEmitter();
-var io = require('socket.io');
 var chokidar = require('chokidar');
+var asrun_path = require('path');
+var http = require('http').Server(app);
 var fs = require('fs');
-// var mongodb = require('mongodb');
 
 var app = express();
 
@@ -39,7 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CONFIGURE ROUTES
-app.use('/api/v1/', enps);
+// app.use('/api/v1/', enps);
 // app.use('/login', login);
 app.use('/', index);
 
@@ -68,46 +64,69 @@ var server = app.listen(3000, function() {
     var port = server.address().port;
     middleware.logger.info('Running on http://localhost:', port);
 });
-//Listener for events on socket.io
-var listener = io.listen(server);
-listener.sockets.on('connection', function(socket){
-  socket.emit('message', {'message' : 'Connected to App'});
-});
 
-listener.sockets.on('error', function (exception) {
-   return middleware.logger.info('error event in socket.send(): ' + exception);
-});
-var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun";
+var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun" || process.env.DBPATH;
 var watcher = chokidar.watch(folderAsRun, {ignored: /^\./, persistent: true});
-middleware.mongo.testConnection();
+//TEST MONGO db CONNECTION
+// middleware.mongo.testConnection();
+//START UP FILE WATCHER FOR SPECIFIC PATH. TAKE FILES AND ADD THEM TO MONGO
 watcher
   .on('add', function(path) {
     middleware.logger.info('File', path, 'has been added');
-    // var lineReader = require('readline').createInterface({
-    //   input: require('fs').createReadStream(path)
-    // });
-    // var myArray = [];
-    // lineReader.on('line', function (l) {
-    //   l.toString();
-    //   myArray.push({
-    //     "date" : l.substring(25,35),
-    //     "time" : l.substring(35,46),
-    //     "mos" : l.substring(46,55),
-    //     "slug" : l.substring(126,176),
-    //     "slug2" : l.substring(176,217),
-    //     "vs" : l.substring(226,231),
-    //     "duration" : l.substring(461,472)
-    //   });
-    // });
-    // lineReader.on('close', function(){
-    //   // middleware.logger.info(myArray);
-    //   middleware.zapier.WebHook(myArray, 'zoho');
-    //   middleware.logger.info('Done');
-    // });
+    var lineReader = require('readline').createInterface({
+      input: require('fs').createReadStream(path)
+    });
+    var myArray = [];
+    lineReader.on('line', function (l) {
+      l.toString();
+      if(path.includes('WRNN')){
+        myArray.push({
+          "date" : l.substring(25,35),
+          "time" : l.substring(35,46),
+          "mos" : l.substring(46,56),
+          "slug" : l.substring(126,176),
+          "slug2" : l.substring(176,217),
+          "vs" : l.substring(226,231),
+          "vs2" : l.substring(246,251),
+          "duration" : l.substring(461,472)
+        });
+      }
+      else {
+        myArray.push({
+          "date" : l.substring(25,35),
+          "time" : l.substring(35,46),
+          "mos" : l.substring(46,55),
+          "slug" : l.substring(126,176),
+          "slug2" : l.substring(176,217),
+          "vs" : l.substring(226,231),
+          "duration" : l.substring(461,472)
+        });
+      }
+    });
+    lineReader.on('close', function(){
+      // middleware.zapier.WebHook(myArray, 'zoho');
+      var enpspath;
+      var asrunName = asrun_path.basename(path);
+      middleware.mongo.insertDocs(myArray, asrunName, "AsRuns");
+      if(asrunName.includes('FIOSL')){
+        enpspath = 'LIFIOS';
+        middleware.grabRundowns.run(enpspath);
+      } else if(asrunName.includes('FIOSN')){
+        enpspath = 'NJFIOS';
+        middleware.grabRundowns.run(enpspath);
+      } else if(asrunName.includes('FIOSH')){
+        enpspath = 'HVFIOS';
+        middleware.grabRundowns.run(enpspath);
+      } else if(asrunName.includes('WRNN')){
+        middleware.logger.info('Done, no rundowns to collect for RNN');
+      }
+      middleware.logger.info('Done: ', asrunName);
+    });
   })
   .on('change', function(path) {middleware.logger.info('File', path, 'has been changed');})
   .on('unlink', function(path) {middleware.logger.info('File', path, 'has been removed');})
   .on('error', function(error) {middleware.logger.error('Error happened', error);});
+
 
 //ACTIONS TO DO WHEN SHUTDOWN IS SENT TO THE SERVER.
 process.on('SIGINT', function() {

@@ -3,6 +3,8 @@
 var request = require("request");
 var logger = require("./logger");
 
+//Send an Array or Object as the "body" variable.
+//"Option" variable is for selecting different Webhook URLs.
 var zapier = {
   WebHook: function(body,option){
     // logger.info(body);
@@ -15,6 +17,9 @@ var zapier = {
     }
     else if (option === 'mongo'){
       url = process.env.ZAPMONGO;
+    }
+    else {
+      return "Pass zoho, sheets or mongo as the second parameter in the function"
     }
     var options = { method: 'POST',
       url: process.env.ZAPZOHO,
