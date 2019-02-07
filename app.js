@@ -14,8 +14,6 @@ const test = require('./test');
 const index = require('./routes/index');
 var chokidar = require('chokidar');
 var asrun_path = require('path');
-var http = require('http').Server(app);
-var fs = require('fs');
 
 var app = express();
 
