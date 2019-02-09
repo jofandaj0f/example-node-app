@@ -6,7 +6,6 @@ const assert = require('assert');
 var username = process.env.MONGO_USER;
 var password = process.env.MONGO_PW;
 var site = process.env.MONGO_SITE;
-logger.info(username + password);
 var uri = "mongodb+srv://" + username + ":"+ password + site;
 
 var mongo = {
@@ -41,6 +40,7 @@ var mongo = {
       const db = client.db(database);
 
       insertDocuments(db, function() {
+        logger.info("Connection Closed");
         client.close();
       });
     });

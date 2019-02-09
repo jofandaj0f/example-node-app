@@ -21,12 +21,9 @@ var enps = {
      return new Promise(function(resolve, reject) {
       // Do async job
          request.get(options, function(err, resp, body) {
-             if (err) {
-                 reject(err);
-             } else {
-                 // logger.info('enps.js : ', body);
-                 resolve(JSON.parse(body));
-             }
+             if (err) throw new Error(err);
+             // logger.info('enps.js : ', body);
+             resolve(JSON.parse(body));
          });
      });
   },
@@ -92,33 +89,30 @@ var enps = {
       return new Promise(function(resolve, reject) {
        // Do async job
           request.post(options, function(err, resp, body) {
-              if (err) {
-                  reject(err);
-              } else {
-                  var rundowns = [];
-                  if (body['SearchResults'] === undefined || body['SearchResults'] === null || body['SearchResults'].length === 0) {
-                    resolve(rundowns);
-                  } else {
-                    for (var i = 0; i < body['SearchResults'].length; i++) {
-                      var z = body['SearchResults'][i];
-                      if (z.ObjectProperties[10].FieldValue) {
-                        var runObj = {
-                          database: z.ListData.ENPSDatabase,
-                          path: z.ListData.Path,
-                          guid: z.ListData.Guid,
-                          returnText: false
-                        }
-                        rundowns.push(runObj);
-                      }
-                    }
-                  // logger.info('enps.js SEARCH : ', rundowns);
-                  }
+              if (err) throw new Error(err);
+              var rundowns = [];
+              if (body['SearchResults'] === undefined || body['SearchResults'] === null || body['SearchResults'].length === 0) {
                 resolve(rundowns);
-                //[ { database: 'WRNN-ENPS1',
-                    // path: 'P_HVFIOS\\W',
-                    // guid: '1CED9FC7-7B3B-40D7-AAEAEF408375BCCB',
-                    // returnText: false } ],
-            }
+              } else {
+                for (var i = 0; i < body['SearchResults'].length; i++) {
+                  var z = body['SearchResults'][i];
+                  if (z.ObjectProperties[10].FieldValue) {
+                    var runObj = {
+                      database: z.ListData.ENPSDatabase,
+                      path: z.ListData.Path,
+                      guid: z.ListData.Guid,
+                      returnText: false
+                    }
+                    rundowns.push(runObj);
+                  }
+                }
+              // logger.info('enps.js SEARCH : ', rundowns);
+              }
+            resolve(rundowns);
+            //[ { database: 'WRNN-ENPS1',
+                // path: 'P_HVFIOS\\W',
+                // guid: '1CED9FC7-7B3B-40D7-AAEAEF408375BCCB',
+                // returnText: false } ],
           });
         });
   },
@@ -134,31 +128,29 @@ var enps = {
     };
     return new Promise(function(resolve, reject){
       request.post(options, function (err, response, body) {
-        if (err) {
-            reject(err);
-        } else {
-            // logger.info('enps.js : ', body);
-            var rundowns = [];
-            var ro = JSON.parse(body);
-            if (ro['Records'] === undefined || ro['Records'] === null || ro['Records'].length === 0) {
-              resolve(rundowns);
-            } else {
-              for (var i = 0; i < ro['Records'].length; i++) {
-                var z = ro['Records'][i];
-                if (z.ObjectProperties[3].FieldValue) {
-                  var runObj = {
-                    guid: z.ListData.Guid,
-                    title: z.ListData.Title
-                  }
-                  rundowns.push(runObj);
-                }
-              }
-            }
+        if (err) throw new Error(err);
+        // logger.info('enps.js : ', body);
+        var rundowns = [];
+        var ro = JSON.parse(body);
+        if (ro['Records'] === undefined || ro['Records'] === null || ro['Records'].length === 0) {
           resolve(rundowns);
+          logger.info('No Rundowns or Planning Grids found!');
+        } else {
+          for (var i = 0; i < ro['Records'].length; i++) {
+            var z = ro['Records'][i];
+            if (z.ObjectProperties[3].FieldValue) {
+              var runObj = {
+                guid: z.ListData.Guid,
+                title: z.ListData.Title,
+                modtime: z.ListData.ModTime
+              }
+              rundowns.push(runObj);
+            }
+          }
         }
+        resolve(rundowns);
       });
     });
-
   },
   getROContent : function(serviceAddress, nomTokenId, recs){
     var options = { method: 'GET',
@@ -173,11 +165,11 @@ var enps = {
       return new Promise(function(resolve, reject) {
        // Do async job
           request.get(options, function(err, resp, body) {
-              if (err) {
-                  reject(err);
-              } else {
-                resolve(JSON.parse(body));
-            }
+              if (err) throw new Error(err);
+              //ADD FUNCTION===If body not expected throw error
+              // var json = JSON.parse(body);
+              // if(json.length === 960){logger.info('Error with RO',json);}
+              resolve(JSON.parse(body));
           });
         });
       },
@@ -192,11 +184,8 @@ var enps = {
          return new Promise(function(resolve, reject) {
           // Do async job
              request.get(options, function(err, resp, body) {
-                 if (err) {
-                     reject(err);
-                 } else {
-                   resolve(JSON.parse(body));
-               }
+                if (err) throw new Error(err);
+                resolve(JSON.parse(body));
              });
            });
       },
@@ -218,7 +207,29 @@ var enps = {
         }else{
             return false;
         }
-
+    },
+    getPlanningContent : function(serviceAddress, nomTokenId, recs){
+      var options = { method: 'GET',
+        url: serviceAddress + '/api/PlanningContent',
+        qs: recs,
+        headers:
+         { 'cache-control': 'no-cache',
+           'X-ENPS-TOKEN': nomTokenId
+         }
+       };
+       // { database: 'WRNN-ENPS1',
+       //   path: 'P_DESK\\W',
+       //   guid: '1281BFC5-BB63-44F4-8DBCEBBFB8FA699F',
+       //   hitHighlightTerm: '',
+       //   returnText: 'true' }
+       // Return new promise
+       return new Promise(function(resolve, reject) {
+        // Do async job
+           request.get(options, function(err, resp, body) {
+              if (err) throw new Error(err);
+              resolve(JSON.parse(body));
+           });
+         });
     }
 }
 
