@@ -1,6 +1,7 @@
 'use strict'
 var request = require("request");
 var logger = require('./logger');
+var assert = require('assert');
 var enps = {
   logon : function(serviceAddress, userName, password, domainName, devKey){
     //Logon
@@ -21,6 +22,8 @@ var enps = {
      return new Promise(function(resolve, reject) {
       // Do async job
          request.get(options, function(err, resp, body) {
+            assert.equal(body.CentralServer, "WRNN-ENPS1", "Central Server connected");
+            assert.equal(body.UserID, "ENPSAPI", "User ID confirmed");
              if (err) throw new Error(err);
              // logger.info('enps.js : ', body);
              resolve(JSON.parse(body));
@@ -37,7 +40,6 @@ var enps = {
 
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-
       logger.info(body);
     });
   },
@@ -165,6 +167,8 @@ var enps = {
       return new Promise(function(resolve, reject) {
        // Do async job
           request.get(options, function(err, resp, body) {
+              assert.equal(err, null);
+              assert(body.length > 1, body);
               if (err) throw new Error(err);
               //ADD FUNCTION===If body not expected throw error
               // var json = JSON.parse(body);

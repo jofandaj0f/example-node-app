@@ -40,6 +40,7 @@ var mongo = {
       const db = client.db(database);
 
       insertDocuments(db, function() {
+        assert.equal(err, null);
         logger.info("Connection Closed");
         client.close();
       });

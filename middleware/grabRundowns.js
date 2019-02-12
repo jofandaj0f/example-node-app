@@ -23,7 +23,6 @@ var grabRundowns = {
             "UnreadBy": ""
           }]
         }).then(function(data){
-
           for (var i = 0; i < data.length; i++){
             logger.info(data[i].title, i, data[i].guid, data[i].modtime);
             var insertTitle = data[i].title;

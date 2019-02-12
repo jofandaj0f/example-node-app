@@ -69,58 +69,59 @@ watcher
   .on('add', function(path) {
     try {
       middleware.logger.info('File', path, 'has been added');
-      var lineReader = require('readline').createInterface({
-        input: require('fs').createReadStream(path)
-      });
-      var myArray = [];
-      lineReader.on('line', function (l) {
-        l.toString();
-        // ADD FUNCTION===if first line of asr file is not correct stop processing
-        if(path.includes('WRNN')){
-          myArray.push({
-            "date" : l.substring(25,35),
-            "time" : l.substring(35,46),
-            "mos" : l.substring(46,56),
-            "slug" : l.substring(126,176),
-            "slug2" : l.substring(176,217),
-            "vs" : l.substring(226,231),
-            "vs2" : l.substring(246,251),
-            "duration" : l.substring(461,472)
-          });
-        }
-        else {
-          myArray.push({
-            "date" : l.substring(25,35),
-            "time" : l.substring(35,46),
-            "mos" : l.substring(46,55),
-            "slug" : l.substring(126,176),
-            "slug2" : l.substring(176,217),
-            "vs" : l.substring(226,231),
-            "duration" : l.substring(461,472)
-          });
-        }
-      });
-      lineReader.on('close', function(){
-        var enpspath;
-        var asrunName = asrun_path.basename(path);
-        middleware.mongo.insertDocs(myArray, asrunName, 'AsRuns');
-        if(asrunName.includes('FIOSL')){
-          enpspath = 'LIFIOS';
-          middleware.grabRundowns.run(enpspath, asrunName);
-        } else if(asrunName.includes('FIOSN')){
-          enpspath = 'NJFIOS';
-          middleware.grabRundowns.run(enpspath, asrunName);
-        } else if(asrunName.includes('FIOSH')){
-          enpspath = 'HVFIOS';
-          // middleware.grabRundowns.run(enpspath, asrunName);
-        } else if(asrunName.includes('WRNN')){
-          middleware.logger.info('Done, no rundowns to collect for RNN');
-        }
-        middleware.grabRundowns.runGrid('DESK', asrunName);
-      });
-    } catch (err){
-      middleware.logger.error(err);
-    }
+    //   var lineReader = require('readline').createInterface({
+    //     input: require('fs').createReadStream(path)
+    //   });
+    //   var myArray = [];
+    //   lineReader.on('line', function (l) {
+    //     l.toString();
+    //     // ADD FUNCTION===if first line of asr file is not correct stop processing
+    //     if(path.includes('WRNN')){
+    //       myArray.push({
+    //         "date" : l.substring(25,35),
+    //         "time" : l.substring(35,46),
+    //         "mos" : l.substring(46,56),
+    //         "slug" : l.substring(126,176),
+    //         "slug2" : l.substring(176,217),
+    //         "vs" : l.substring(226,231),
+    //         "vs2" : l.substring(246,251),
+    //         "duration" : l.substring(461,472)
+    //       });
+    //     }
+    //     else {
+    //       myArray.push({
+    //         "date" : l.substring(25,35),
+    //         "time" : l.substring(35,46),
+    //         "mos" : l.substring(46,55),
+    //         "slug" : l.substring(126,176),
+    //         "slug2" : l.substring(176,217),
+    //         "vs" : l.substring(226,231),
+    //         "duration" : l.substring(461,472)
+    //       });
+    //     }
+    //   });
+    //   lineReader.on('close', function(){
+    //     var enpspath;
+    //     var asrunName = asrun_path.basename(path);
+    //     middleware.mongo.insertDocs(myArray, asrunName, 'AsRuns');
+    //     if(asrunName.includes('FIOSL')){
+    //       enpspath = 'LIFIOS';
+    //       middleware.grabRundowns.run(enpspath, asrunName);
+    //     } else if(asrunName.includes('FIOSN')){
+    //       enpspath = 'NJFIOS';
+    //       middleware.grabRundowns.run(enpspath, asrunName);
+    //     } else if(asrunName.includes('FIOSH')){
+    //       enpspath = 'HVFIOS';
+    //       // middleware.grabRundowns.run(enpspath, asrunName);
+    //     } else if(asrunName.includes('WRNN')){
+    //       middleware.logger.info('Done, no rundowns to collect for RNN');
+    //     }
+    //     middleware.grabRundowns.runGrid('DESK', asrunName);
+    //   });
+    // } catch (err){
+    //   middleware.logger.error(err);
+    //   middleware.zapier.WebHook(err, 'mail');
+    // }
   })
   .on('change', function(path) {middleware.logger.info('File', path, 'has been changed');})
   .on('unlink', function(path) {middleware.logger.info('File', path, 'has been removed');})
