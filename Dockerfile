@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:10.15.1-jessie
 MAINTAINER Jonathan Ferraro
 
 # Create app directory
@@ -8,6 +8,7 @@ RUN npm -v
 
 # Install app dependencies
 COPY package.json /usr/src/app/
+COPY package-lock.json /usr/src/app
 RUN npm install
 RUN npm prune
 

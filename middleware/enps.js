@@ -43,7 +43,7 @@ var enps = {
       logger.info(body);
     });
   },
-  search: function(serviceAddress, nomTokenId, database, location){
+  search : function(serviceAddress, nomTokenId, database, location){
     logger.info('enps.js search: ', serviceAddress, nomTokenId, database, location);
     //SEARCH
     var options = { method: 'POST',
