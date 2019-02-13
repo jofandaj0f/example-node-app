@@ -6,14 +6,15 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 RUN npm -v
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-COPY package-lock.json /usr/src/app
+#Install app dependencies
+COPY . .
+#COPY package.json /usr/src/app/
+#COPY package-lock.json /usr/src/app
 RUN npm install -g
 RUN npm prune
 
 # Bundle app source
-COPY . .
+#COPY . .
 
 #Mount Shared Folder
 ADD ./AsRunDrop/testFolder /DropFolder

@@ -3,9 +3,9 @@ sudo: true
 node_js:
   - "node"
   - "8"
+  - "10"
 before_install:
   - npm install npm@latest -g
 before_script:
   - npm run lint
   - npm run test
-
