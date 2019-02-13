@@ -9,7 +9,7 @@ RUN npm -v
 # Install app dependencies
 COPY package.json /usr/src/app/
 COPY package-lock.json /usr/src/app
-RUN npm install
+RUN npm install -g
 RUN npm prune
 
 # Bundle app source
