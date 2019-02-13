@@ -19,4 +19,4 @@ services:
       volumes:
         - ./data/db:/data/db
   volumes:
-    - ./AsRunDrop/testFolder:/DropFolder
+    - ./AsRunDrop/testFolder
