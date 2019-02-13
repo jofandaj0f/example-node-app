@@ -12,8 +12,11 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-#Open up containers ports app and mysql respectively
-EXPOSE 3000 3306
+#Mount Shared Folder
+ADD ./AsRunDrop/testFolder /DropFolder
+
+#Open up containers ports app respectively
+EXPOSE 3000
 
 #Start Node for NodeJS
 CMD [ "npm", "start"]

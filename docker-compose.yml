@@ -4,9 +4,7 @@ services:
       build: .
       volumes:
         - ./:/app
-        - type: bind
-          source: ./AsRunDrop/testFolder
-          target: /Drop
+        - ./AsRunDrop/testFolder:/DropFolder
       working_dir: /app
       environment:
         NODE_ENV: development
