@@ -12,6 +12,7 @@ COPY . .
 #COPY package-lock.json /usr/src/app
 RUN npm install -g
 RUN npm prune
+RUN npm audit fix
 
 # Bundle app source
 #COPY . .
