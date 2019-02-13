@@ -4,11 +4,12 @@ services:
       build: .
       volumes:
         - ./:/app
+        - type: bind
+          source: ./AsRunDrop/testFolder
+          target: /Drop
       working_dir: /app
       environment:
         NODE_ENV: development
       ports:
         - 3000:3000
       command: npm start
-volumes:
-  - ./AsRunDrop/testFolder:/DropFolder
