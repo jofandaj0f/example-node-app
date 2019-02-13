@@ -4,7 +4,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const signalR = require('signalr-client');
 //const login = require('./routes/login');
 const enps = require('./routes/enpsapi');
 const favicon = require('serve-favicon');
@@ -62,12 +61,12 @@ var server = app.listen(3000, function() {
     middleware.logger.info('Running on http://localhost:', port);
 });
 
-var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun/**.asr" || process.env.DBPATH;
+var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun/**.asr" || process.env.WATCHPATH;
 var watcher = chokidar.watch(folderAsRun, {ignored: /^\./, persistent: true});
 //START UP FILE WATCHER FOR SPECIFIC PATH. TAKE FILES AND ADD THEM TO MONGO
 watcher
   .on('add', function(path) {
-    try {
+    // try {
       middleware.logger.info('File', path, 'has been added');
     //   var lineReader = require('readline').createInterface({
     //     input: require('fs').createReadStream(path)
