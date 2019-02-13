@@ -18,3 +18,5 @@ services:
         - 27017
       volumes:
         - ./data/db:/data/db
+  volumes:
+    - ./AsRunDrop/testFolder:/DropFolder
