@@ -9,7 +9,6 @@ const enps = require('./routes/enpsapi');
 const favicon = require('serve-favicon');
 const middleware = require('./middleware');
 const config = require('./config');
-const test = require('./test');
 const index = require('./routes/index');
 var chokidar = require('chokidar');
 var asrun_path = require('path');
