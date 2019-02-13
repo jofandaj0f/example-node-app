@@ -61,7 +61,7 @@ var server = app.listen(3000, function() {
 });
 
 middleware.mongo.testConnection();
-var folderAsRun = "C:/Users/jferraro/Documents/Test_AsRun/**.asr" || process.env.WATCHPATH;
+var folderAsRun = process.env.WATCHPATH || "C:/Users/jferraro/Documents/Test_AsRun/**.asr";
 var watcher = chokidar.watch(folderAsRun, {ignored: /^\./, persistent: true});
 //START UP FILE WATCHER FOR SPECIFIC PATH. TAKE FILES AND ADD THEM TO MONGO
 watcher

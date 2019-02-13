@@ -16,9 +16,6 @@ RUN npm prune
 # Bundle app source
 #COPY . .
 
-#Mount Shared Folder
-ADD ./AsRunDrop/testFolder /DropFolder
-
 #Open up containers ports app respectively
 EXPOSE 3000
 
