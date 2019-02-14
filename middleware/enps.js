@@ -22,8 +22,8 @@ var enps = {
      return new Promise(function(resolve, reject) {
       // Do async job
          request.get(options, function(err, resp, body) {
-            assert.equal(body.CentralServer, "WRNN-ENPS1", "Central Server connected");
-            assert.equal(body.UserID, "ENPSAPI", "User ID confirmed");
+            // assert.equal(body.CentralServer, "WRNN-ENPS1", body.CentralServer);
+            // assert.equal(body.UserID, "ENPSAPI", "User ID confirmed");
              if (err) throw new Error(err);
              // logger.info('enps.js : ', body);
              resolve(JSON.parse(body));

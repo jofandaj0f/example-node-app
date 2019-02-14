@@ -61,7 +61,8 @@ var server = app.listen(3000, function() {
 });
 
 middleware.mongo.testConnection();
-var folderAsRun = process.env.WATCHPATH || "C:/Users/jferraro/Documents/Test_AsRun/**.asr";
+middleware.logger.info(process.env.WATCHPATH);
+var folderAsRun = process.env.WATCHPATH;
 var watcher = chokidar.watch(folderAsRun, {ignored: /^\./, persistent: true});
 //START UP FILE WATCHER FOR SPECIFIC PATH. TAKE FILES AND ADD THEM TO MONGO
 watcher
@@ -133,6 +134,10 @@ process.on('SIGINT', function() {
     // Meaning PM2 is now trying to stop the process
     // So I can clean some stuff before the final stop
     process.exit(0);
+});
+process.on('uncaughtException', function(err){
+  middleware.zapier.WebHook(err, 'mail');
+  process.exit(0);
 });
 
 module.exports = app;
