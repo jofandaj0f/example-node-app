@@ -3,6 +3,7 @@ require('dotenv').config();
 const enps = require('./enps');
 const logger = require('./logger');
 const mongo = require('./mongoclient');
+const zapier = require('./zapier');
 const assert = require('assert');
 
 var grabRundowns = {
@@ -60,15 +61,18 @@ var grabRundowns = {
             }).catch(function(err){
               // getROContent End
               logger.error('Get Rundown Error: ', err);
+              zapier.WebHook(err, 'mail');
             });
           }
         }).catch(function(err){
           // ListRundowns End
           logger.error(err);
+          zapier.WebHook(err, 'mail');
         });
     }).catch(function(err){
       //Logon End
       logger.error(err);
+      zapier.WebHook(err, 'mail');
     });
   },
   runGrid : function(enpsFolder, fileExtension){
@@ -123,10 +127,12 @@ var grabRundowns = {
                    });
                  }).catch(function(err){
                    logger.error(err);
+                   zapier.WebHook(err, 'mail');
                  });
             }
           }).catch(function(err){
             logger.error(err);
+            zapier.WebHook(err, 'mail');
           });
     });
   }

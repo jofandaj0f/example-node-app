@@ -112,7 +112,7 @@ watcher
           middleware.grabRundowns.run(enpspath, asrunName);
         } else if(asrunName.includes('FIOSH')){
           enpspath = 'HVFIOS';
-          // middleware.grabRundowns.run(enpspath, asrunName);
+          middleware.grabRundowns.run(enpspath, asrunName);
         } else if(asrunName.includes('WRNN')){
           middleware.logger.info('Done, no rundowns to collect for RNN');
         }
@@ -126,7 +126,10 @@ watcher
   .on('change', function(path) {middleware.logger.info('File', path, 'has been changed');})
   .on('unlink', function(path) {middleware.logger.info('File', path, 'has been removed');})
   .on('error', function(error) {middleware.logger.error('Error happened', error);});
-
+  process.on('uncaughtException', function(){
+    middleware.zapier.WebHook('WARNING: uncaughtException, check server logs immediately', 'mail');
+    // process.exit(0);
+  });
 //ACTIONS TO DO WHEN SHUTDOWN IS SENT TO THE SERVER.
 process.on('SIGINT', function() {
     middleware.logger.info('SIGINT Received .. shutting down');
@@ -135,9 +138,6 @@ process.on('SIGINT', function() {
     // So I can clean some stuff before the final stop
     process.exit(0);
 });
-process.on('uncaughtException', function(err){
-  middleware.zapier.WebHook(err, 'mail');
-  process.exit(0);
-});
+
 
 module.exports = app;

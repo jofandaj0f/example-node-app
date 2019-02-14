@@ -22,11 +22,12 @@ var enps = {
      return new Promise(function(resolve, reject) {
       // Do async job
          request.get(options, function(err, resp, body) {
-            // assert.equal(body.CentralServer, "WRNN-ENPS1", body.CentralServer);
-            // assert.equal(body.UserID, "ENPSAPI", "User ID confirmed");
+           var exportJSON = JSON.parse(body);
+            assert.equal(exportJSON["CentralServer"], "WRNN-ENPS1");
+            assert.equal(exportJSON["UserID"], "ENPSAPI");
              if (err) throw new Error(err);
              // logger.info('enps.js : ', body);
-             resolve(JSON.parse(body));
+             resolve(exportJSON);
          });
      });
   },
@@ -40,7 +41,7 @@ var enps = {
 
     request(options, function (error, response, body) {
       if (error) throw new Error(error);
-      logger.info(body);
+      logger.info(JSON.parse(body));
     });
   },
   search : function(serviceAddress, nomTokenId, database, location){
