@@ -107,15 +107,15 @@ watcher
         middleware.mongo.insertDocs(myArray, asrunName, 'AsRuns');
         if (asrunName.includes('FIOSL')) {
           enpspath = 'LIFIOS';
-          // middleware.grabRundowns.run(enpspath, asrunName);
+          middleware.grabRundowns.run(enpspath, asrunName);
           middleware.grabRundowns.NewsNow(asrunName);
         } else if (asrunName.includes('FIOSN')) {
           enpspath = 'NJFIOS';
-          // middleware.grabRundowns.run(enpspath, asrunName);
+          middleware.grabRundowns.run(enpspath, asrunName);
           middleware.grabRundowns.NewsNow(asrunName);
         } else if (asrunName.includes('FIOSH')) {
           enpspath = 'HVFIOS';
-          // middleware.grabRundowns.run(enpspath, asrunName);
+          middleware.grabRundowns.run(enpspath, asrunName);
           middleware.grabRundowns.NewsNow(asrunName);
         } else if (asrunName.includes('WRNN')) {
           middleware.logger.info('Done, no rundowns to collect for RNN');

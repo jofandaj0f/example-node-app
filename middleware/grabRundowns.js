@@ -128,11 +128,6 @@ var grabRundowns = {
               logger.info('The Planning Grid is ' + myArray.length + ' Pages long.');
               mongo.insertDocs(myArray, rundownName, "planningGrids");
               logger.info(rundownName);
-              enps.logout(process.env.ENPS_HOST, session).catch(function(err) {
-                logger.error(err); //LOGOUT ATTEMPT FAILURE
-              }).then(function(dataFour) {
-                logger.info('Successful logout: ', dataFour);
-              });
             }).catch(function(err) {
               logger.error(err);
               zapier.WebHook(err, 'mail');
