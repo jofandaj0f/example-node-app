@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+// const signalR = require('signalr-client');
 //const login = require('./routes/login');
 const enps = require('./routes/enpsapi');
 const favicon = require('serve-favicon');
@@ -31,13 +32,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //CONFIGURE ROUTES
-// app.use('/api/v1/', enps);
+app.use('/api/v1/', enps);
 // app.use('/login', login);
 app.use('/', index);
+app.use('/getRundown', index);
+
 
 //configure logging
 app.use(middleware.expresslogger);
-
 // catch 404 and forward to error handler
 app.use(function(err, req, res) {
   middleware.logger.error({
@@ -56,7 +58,7 @@ app.use(function(err, req, res) {
 //SPIN UP THE SERVER
 var server = app.listen(3000, function() {
   var port = server.address().port;
-  middleware.logger.info('Running on http://localhost:', port);
+  middleware.logger.info('Running on http://localhost:' + port);
 });
 
 middleware.mongo.testConnection();
@@ -120,7 +122,7 @@ watcher
         } else if (asrunName.includes('WRNN')) {
           middleware.logger.info('Done, no rundowns to collect for RNN');
         }
-        middleware.grabRundowns.runGrid('DESK', asrunName);
+        middleware.grabRundowns.runGrid('DESK', asrunName, 'mongo');
       });
     } catch (err) {
       middleware.logger.error(err);

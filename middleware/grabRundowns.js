@@ -5,6 +5,7 @@ const logger = require('./logger');
 const mongo = require('./mongoclient');
 const zapier = require('./zapier');
 const assert = require('assert');
+const writeCSV = require('./writeCSV');
 
 var grabRundowns = {
   run: function(enpsFolder, fileExtension) {
@@ -16,7 +17,7 @@ var grabRundowns = {
         var MyDate = new Date("20" + fileExtension.substring(0, 8));
         var MyDateString;
         MyDate.setDate(MyDate.getDate() + 2);
-        MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
+        MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
         logger.info(MyDateString);
         enps.listRundowns(process.env.ENPS_HOST, data.SessionID, {
           "Database": process.env.ENPS_DB,
@@ -82,62 +83,90 @@ var grabRundowns = {
         zapier.WebHook(err, 'mail');
       });
   },
-  runGrid: function(enpsFolder, fileExtension) {
-    enps.logon(process.env.ENPS_HOST, process.env.ENPS_USER, process.env.ENPS_PASS, process.env.ENPS_DOMAIN, process.env.ENPS_DEVKEY)
-      .then(function(data) {
-        var session = data.SessionID;
-        logger.info('Session:', session, "20" + fileExtension.substring(0, 8), enpsFolder);
-        enps.listRundowns(process.env.ENPS_HOST, session, {
-          "Database": process.env.ENPS_DB,
-          "ENPSListParameters": [{
-            "Path": "P_" + enpsFolder + "\\W",
-            "Guid": "",
-            "Type": 12,
-            "StartTime": "20" + fileExtension.substring(0, 8) + "T00:00:00.000Z",
-            "EndTime": "20" + fileExtension.substring(0, 8) + "T23:59:59.000Z",
-            "Priority": null,
-            "UnreadBy": ""
-          }]
-        }).catch(function(err) {
-          logger.info(err);
-        }).then(function(dataTwo) {
-          // logger.info(dataTwo);
-          for (var i = 0; i < dataTwo.length; i++) {
-            logger.info('Get planningGrid', dataTwo[i]['guid']);
-            enps.getPlanningContent(process.env.ENPS_HOST, session, {
-              "database": process.env.ENPS_DB,
-              "path": 'P_' + enpsFolder + '\\W',
-              "guid": dataTwo[i]['guid'],
-              "hitHighlightTerm": '',
-              "returnText": 'true'
-            }).then(function(dataThree) {
-              //BREAKDOWN each page from the rundown
-              //PUSH Array of objects of Pages to Mongos
-              var rundownName = dataThree["ListData"]["Title"] + ' ' + dataThree["ListData"]["ModTime"].substring(0, 10);
-              var myArray = [];
-              for (var i = 0; i < dataThree.CollectionScripts.length; i++) {
-                var breakdown = dataThree.CollectionScripts[i].RecordPointer.ObjectProperties;
-                var obj = {};
-                for (var j = 0; j < breakdown.length; j++) {
-                  var sto1 = breakdown[j].FieldName;
-                  var sto2 = breakdown[j].FieldValue;
-                  obj[sto1] = sto2;
+  runGrid: function(enpsFolder, fileExtension, eitherOr) {
+    return new Promise(function(resolve, reject) {
+      enps.logon(process.env.ENPS_HOST, process.env.ENPS_USER, process.env.ENPS_PASS, process.env.ENPS_DOMAIN, process.env.ENPS_DEVKEY)
+        .then(function(data) {
+          var session = data.SessionID;
+          logger.info('Session:', session, "20" + fileExtension.substring(0, 8), enpsFolder);
+          enps.listRundowns(process.env.ENPS_HOST, session, {
+            "Database": process.env.ENPS_DB,
+            "ENPSListParameters": [{
+              "Path": "P_" + enpsFolder + "\\W",
+              "Guid": "",
+              "Type": 12,
+              "StartTime": "20" + fileExtension.substring(0, 8) + "T00:00:00.000Z",
+              "EndTime": "20" + fileExtension.substring(0, 8) + "T23:59:59.000Z",
+              "Priority": null,
+              "UnreadBy": ""
+            }]
+          }).catch(function(err) {
+            logger.info(err);
+          }).then(function(dataTwo) {
+            // logger.info(dataTwo);
+            for (var i = 0; i < dataTwo.length; i++) {
+              logger.info('Get planningGrid', dataTwo[i]['guid']);
+              enps.getPlanningContent(process.env.ENPS_HOST, session, {
+                "database": process.env.ENPS_DB,
+                "path": 'P_' + enpsFolder + '\\W',
+                "guid": dataTwo[i]['guid'],
+                "hitHighlightTerm": '',
+                "returnText": 'true'
+              }).then(function(dataThree) {
+                //BREAKDOWN each page from the rundown
+                //PUSH Array of objects of Pages to Mongos
+                var rundownName = dataThree["ListData"]["Title"] + ' ' + dataThree["ListData"]["ModTime"].substring(0, 10);
+                var myArray = [];
+                for (var i = 0; i < dataThree.CollectionScripts.length; i++) {
+                  var breakdown = dataThree.CollectionScripts[i].RecordPointer.ObjectProperties;
+                  var obj = {};
+                  for (var j = 0; j < breakdown.length; j++) {
+                    var sto1 = breakdown[j].FieldName;
+                    var sto2 = breakdown[j].FieldValue;
+                    obj[sto1] = sto2;
+                  }
+                  myArray.push(obj);
+                };
+                logger.info('The Planning Grid is ' + myArray.length + ' Pages long.');
+                if (eitherOr === 'mongo') {
+                  mongo.insertDocs(myArray, rundownName, "planningGrids");
+                  resolve('Sent to Mongo');
+                } else if (eitherOr === 'download') {
+
+                  var csvData = new Array();
+                  for (var k = 0; k < myArray.length; k++) {
+                    // logger.info(myArray[k].Title);
+                    var pushItrealGood = {
+                      slug: myArray[k].Title,
+                      // segment: myArray[k].,
+                      // eventTime: myArray[k].,
+                      location: myArray[k].LOCATION,
+                      // type: myArray[k],
+                      reporter: myArray[k].StaffIDReporter,
+                      crew: myArray[k].Crew,
+                      guid: myArray[k].GUID,
+                      webeditor: myArray[k].WebEditorRequest,
+                      writer: myArray[k].Writer,
+                      path: myArray[k].Path
+                    }
+                    csvData.push(pushItrealGood);
+                  };
+                  resolve(csvData);
+
+                  // writeCSV.writeENPStoFile(dataThree, rundownName, process.env.WRITEPATH);
                 }
-                myArray.push(obj);
-              };
-              logger.info('The Planning Grid is ' + myArray.length + ' Pages long.');
-              mongo.insertDocs(myArray, rundownName, "planningGrids");
-              logger.info(rundownName);
-            }).catch(function(err) {
-              logger.error(err);
-              zapier.WebHook(err, 'mail');
-            });
-          }
-        }).catch(function(err) {
-          logger.error(err);
-          zapier.WebHook(err, 'mail');
+                logger.info(rundownName);
+              }).catch(function(err) {
+                logger.error(err);
+                zapier.WebHook(err, 'mail');
+              });
+            }
+          }).catch(function(err) {
+            logger.error(err);
+            zapier.WebHook(err, 'mail');
+          });
         });
-      });
+    });
   },
   NewsNow: function(fileExtension) {
     enps.logon(process.env.ENPS_HOST, process.env.ENPS_USER, process.env.ENPS_PASS, process.env.ENPS_DOMAIN, process.env.ENPS_DEVKEY)
@@ -148,7 +177,7 @@ var grabRundowns = {
         var MyDate = new Date("20" + fileExtension.substring(0, 8));
         var MyDateString;
         MyDate.setDate(MyDate.getDate() + 2);
-        MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
+        MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-' + ('0' + MyDate.getDate()).slice(-2);
         logger.info(MyDateString);
         enps.listRundowns(process.env.ENPS_HOST, data.SessionID, {
           "Database": process.env.ENPS_DB,
@@ -166,7 +195,7 @@ var grabRundowns = {
           for (var i = 0; i < data.length; i++) {
             var insertTitle = data[i].title;
             logger.info(insertTitle);
-            if (insertTitle === 'HD FiOS1 News Now'){
+            if (insertTitle === 'HD FiOS1 News Now') {
               var optionsRO = {
                 database: process.env.ENPS_DB,
                 path: 'P_WRNNNEWS\\W',

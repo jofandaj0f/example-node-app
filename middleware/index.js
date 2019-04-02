@@ -9,5 +9,6 @@ module.exports = {
 	grabRundowns: require('./grabRundowns'),
 	enps: require('./enps'),
 	zapier: require('./zapier'),
-	mongo: require('./mongoclient')
+	mongo: require('./mongoclient'),
+	writeCSV: require('./writeCSV')
 }

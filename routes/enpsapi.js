@@ -12,6 +12,22 @@ const isAuthenticated = function(req, res, next) {
 	}
 	next();
 }
+router.post('/enps/writeGridtoFile', function(req, res){
+	if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').load();
+  }
+	var information = req.body;
+	middleware.logger.info(information);
+	var dateTime = new Date();
+  middleware.grabRundowns.runGrid('DESK', information.date, 'download')
+		.then(function(csvData){
+			res.setHeader('Content-disposition', 'attachment; filename=data.csv');
+	    res.set('Content-Type', 'text/csv');
+	    res.status(200).send(csvData);
+		});
+	// var sendMe = 'Grid downloaded for ' + information.date + ' : ' + dateTime;
+	// res.send(sendMe);
+});
 
 router.get('/enps/logon', function(req, res) {
   if (process.env.NODE_ENV !== 'production') {

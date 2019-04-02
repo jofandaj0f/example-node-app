@@ -18,5 +18,7 @@ router.get('/', function(req, res) {
 	return res.render('index');
 });
 
-
+router.get('/getRundown', function(req, res){
+	return res.render('lookup');
+})
 module.exports = router;
