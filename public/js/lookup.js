@@ -4,7 +4,7 @@ function download_csv(data, name) {
   //   ['Bar', 'bus driver'],
   //   ['Moo', 'Reindeer Hunter']
   // ];
-  var csv = 'Story Slug,Location,Reporter,Crew,WebEditorRequest,Writer,Path,GUID\n';
+  var csv = 'Story Slug,Event Time,Location,Type,Status,Reporter,Crew,Writer,Path,GUID\n';
   $.each(JSON.parse(data), function( key, value ) {
       if(value.slug == 'ALL ZONES' || value.slug == 'LONG ISLAND' ||
           value.slug == 'PHOTOGS LI' || value.slug == 'NEW JERSEY' ||
@@ -20,20 +20,24 @@ function download_csv(data, name) {
         else if (value.slug === undefined){
           csv += ',';
         }
+        csv += value.eventTime + ',';
         csv += value.location + ',';
+        csv += value.type + ',';
+        csv += value.status + ',';
         if (value.reporter[0] !== undefined){
-          csv += value.reporter[0] + ',';
+          var lengthOff = value.reporter[0].length;
+          csv += value.reporter[0].substring(16,lengthOff) + ',';
         }
         else if (value.reporter[0] === undefined){
           csv += ',';
         }
         if (value.crew[0] !== undefined){
-          csv += value.crew[0] + ',';
+          var lengthOf = value.crew[0].length;
+          csv += value.crew[0].substring(5,lengthOf) + ',';
         }
         else if (value.crew[0] === undefined){
           csv += ',';
         }
-        csv += value.webeditor + ',';
         csv += value.writer + ',';
         csv += value.path + ',';
         csv += value.guid + ',';

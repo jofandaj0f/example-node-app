@@ -136,12 +136,60 @@ var grabRundowns = {
                   var csvData = new Array();
                   for (var k = 0; k < myArray.length; k++) {
                     // logger.info(myArray[k].Title);
+                    var type = '';
+                    var status = '';
+                    logger.info(myArray[k].CurrentStatus + ' =======  ' + myArray[k].ElementType);
+                    switch(myArray[k].CurrentStatus) {
+                      case '1':
+                        status += 'ASSIGNED ';
+                        break;
+                      case '2':
+                        status += 'IN PROGRESS ';
+                        break;
+                      case '3':
+                        status += 'IN HOUSE ';
+                        break;
+                      case '4':
+                        status += 'WORKING ON ';
+                        break;
+                      default:
+                        status += '';
+                        break;
+                    };
+                    switch(myArray[k].ElementType) {
+                      case '1':
+                        type += 'AS LIVE ';
+                        break;
+                      case '2':
+                        type += 'LIVE ';
+                        break;
+                      case '3':
+                        type += 'LIVE WITH DONUT ';
+                        break;
+                      case '4':
+                        type += 'PKG ';
+                        break;
+                      case '5':
+                        type += 'VO ';
+                        break;
+                      case '6':
+                        type += 'VOSOT ';
+                        break;
+                      case '7':
+                        type += 'HFR ';
+                        // break;
+                      default:
+                        type += '';
+                        break;
+                    };
+                    logger.info(status + ' =======  ' + type);
                     var pushItrealGood = {
                       slug: myArray[k].Title,
                       // segment: myArray[k].,
-                      // eventTime: myArray[k].,
+                      eventTime: myArray[k].time,
                       location: myArray[k].LOCATION,
-                      // type: myArray[k],
+                      type: type,
+                      status: status,
                       reporter: myArray[k].StaffIDReporter,
                       crew: myArray[k].Crew,
                       guid: myArray[k].GUID,

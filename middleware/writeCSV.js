@@ -38,12 +38,59 @@ var writeCSV = {
     var data = new Array();
     for (var k = 0; k < myArray.length; k++){
       // logger.info(myArray[k].Title);
+      var type = '';
+      var status = '';
+      switch(myArray[k].CurrentStatus) {
+        case 1:
+          status += 'ASSIGNED ';
+          // break;
+        case 2:
+          status += 'IN PROGRESS ';
+          // break;
+        case 3:
+          status += 'IN HOUSE ';
+          // break;
+        case 4:
+          status += 'WORKING ON ';
+          // break;
+        default:
+          status = 'N/A';
+          break;
+      };
+      switch(myArray[k].ElementType) {
+        case 1:
+          type += 'AS LIVE ';
+          // break;
+        case 2:
+          type += 'LIVE ';
+          // break;
+        case 3:
+          type += 'LIVE WITH DONUT ';
+          // break;
+        case 4:
+          type += 'PKG ';
+          // break;
+        case 5:
+          type += 'VO ';
+          // break;
+        case 6:
+          type += 'VOSOT ';
+          // break;
+        case 7:
+          type += 'HFR ';
+          // break;
+        default:
+          type = 'N/A';
+          break;
+      };
+      logger.info(type, status);
       var pushItrealGood = {
         slug: myArray[k].Title,
         // segment: myArray[k].,
         // eventTime: myArray[k].,
         location: myArray[k].LOCATION,
-        // type: myArray[k],
+        status: status,
+        type: type,
         reporter: myArray[k].StaffIDReporter,
         crew: myArray[k].Crew,
         webeditor: myArray[k].WebEditorRequest,
