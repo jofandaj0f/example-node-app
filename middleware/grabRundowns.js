@@ -136,53 +136,53 @@ var grabRundowns = {
                   var csvData = new Array();
                   for (var k = 0; k < myArray.length; k++) {
                     // logger.info(myArray[k].Title);
-                    var type = '';
-                    var status = '';
-                    logger.info(myArray[k].CurrentStatus + ' =======  ' + myArray[k].ElementType);
+                    var type = "";
+                    var status = "";
+                    // logger.info(myArray[k].CurrentStatus + " =======  " + myArray[k].ElementType);
                     switch(myArray[k].CurrentStatus) {
-                      case '1':
-                        status += 'ASSIGNED ';
+                      case "1":
+                        status += "ASSIGNED ";
                         break;
-                      case '2':
-                        status += 'IN PROGRESS ';
+                      case "2":
+                        status += "IN PROGRESS ";
                         break;
-                      case '3':
-                        status += 'IN HOUSE ';
+                      case "3":
+                        status += "IN HOUSE ";
                         break;
-                      case '4':
-                        status += 'WORKING ON ';
+                      case "4":
+                        status += "WORKING ON ";
                         break;
                       default:
-                        status += '';
+                        status += "";
                         break;
                     };
                     switch(myArray[k].ElementType) {
-                      case '1':
-                        type += 'AS LIVE ';
+                      case "1":
+                        type += "AS LIVE ";
                         break;
-                      case '2':
-                        type += 'LIVE ';
+                      case "2":
+                        type += "LIVE ";
                         break;
-                      case '3':
-                        type += 'LIVE WITH DONUT ';
+                      case "3":
+                        type += "LIVE WITH DONUT ";
                         break;
-                      case '4':
-                        type += 'PKG ';
+                      case "4":
+                        type += "PKG ";
                         break;
-                      case '5':
-                        type += 'VO ';
+                      case "5":
+                        type += "VO ";
                         break;
-                      case '6':
-                        type += 'VOSOT ';
+                      case "6":
+                        type += "VOSOT ";
                         break;
-                      case '7':
-                        type += 'HFR ';
+                      case "7":
+                        type += "HFR ";
                         // break;
                       default:
-                        type += '';
+                        type += "";
                         break;
                     };
-                    logger.info(status + ' =======  ' + type);
+                    // logger.info(status + " ====== " + type);
                     var pushItrealGood = {
                       slug: myArray[k].Title,
                       // segment: myArray[k].,
