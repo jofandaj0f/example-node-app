@@ -153,7 +153,7 @@ var enps = {
         var rundowns = [];
         var ro = JSON.parse(body);
         if (ro['Records'] === undefined || ro['Records'] === null || ro['Records'].length === 0) {
-          resolve(rundowns);
+          resolve('No Rundowns or Planning Grids found!');
           logger.info('No Rundowns or Planning Grids found!');
         } else {
           for (var i = 0; i < ro['Records'].length; i++) {

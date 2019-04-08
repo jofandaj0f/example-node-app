@@ -13,28 +13,53 @@
     </header>
     <main>
       <h3>Select Date then Click</h3>
-      <div id="page">
-            <div class='col-md-3'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' id="theDate" class="form-control" />
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
-              </div>
+      <div id="page" class="jumbotron">
+        <div class='col-md-3'>
+          <div class="form-group">
+            <div class='input-group date' id='datetimepicker1'>
+              <input type='text' id="theDate" class="form-control" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
             </div>
-                <button type="submit" class="btn btn-primary" id="submit-grid">Get Planning Grid</button>
-                <!-- <button type="submit" class="btn btn-primary" id="submit-ro">Get Rundowns</button> -->
-              </div>
-            <script type="text/javascript">
-              $(function() {
-                $('#datetimepicker1').datetimepicker({ format: 'YY-MM-DD'});
-              });
-            </script>
           </div>
         </div>
-    </main>
+        <button type="submit" class="btn btn-primary" id="submit-grid">Get Planning Grid</button>
+      </div>
+      <h4>1) Select Date </h4>
+      <h4>2) Select Select Zone</h4>
+      <h4>3) Click on Get Rundowns</h4>
+      <h4>4) Click on Download Rundown</h4>
+      <div class="jumbotron">
+        <div class="col-md-6">
+          <div class="form-group">
+            <select class="selectpicker" id="zones">
+              <option value="HVFIOS">Hudson Valley</option>
+              <option value="LIFIOS">Long Island</option>
+              <option value="NJFIOS">New Jersey</option>
+            </select>
+            <button type="submit" class="btn btn-primary" id="listRundowns">Get Rundowns</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" >
+            <select class="selectpicker" id="rundowns">
+            </select>
+            <button type="submit" class="btn btn-primary" id="download-ro">Download Rundown</button>
+          </div>
+        </div>
+      </div>
+      <div id="loader"></div>
+      <script type="text/javascript">
+        $(function() {
+          $('#datetimepicker1').datetimepicker({
+            format: 'YY-MM-DD'
+          });
+        });
+      </script>
+  </div>
+  </div>
+  </main>
   </div>
 </body>
 
