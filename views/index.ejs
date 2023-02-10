@@ -1,28 +1,52 @@
 <!-- views/pages/index.ejs -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
-    <% include ../partials/head %>
-    <title>NodeJS</title>
+    <%- include('partials/head-offline'); %>
+    <style>
+        h2 {text-align: center;}
+        p {text-align: center;}
+    </style>
+    <title>Do the MCS Things</title>
 </head>
+
 <body class="container">
 
     <header>
-        <% include ../partials/header %>
+        <div class="panel panel-default">
+            <h2>Let's mess with CVX with tons of consequences</h2>
+            <p>by Jonathan Ferraro... who isn't responsible for you breaking CVX</p>
+        </div>
     </header>
 
     <main>
-        <div class="panel panel-default" id="homepage-panel">
-            <h1>Hello World!</h1>
-            <p>Node JS Application</p>
+        <div class="grid mb-5">
+            <div class="container text-center">
+                <div class="row align-items-start">
+                <div class="col">
+                    <%- include('partials/mcs-red'); %>
+                    <div class="grid mb-5">
+                        <h3 class="grid mb-2">List of all Red Senders</h3>
+                        <input type="button" class="btn btn-outline-warning" name="TrackingID" value="69" onclick="copyandpaste(this)">
+                        <!-- <div class="mb-3">
+                            <input class="form-control " id="searchRedList" rows="1" placeholder="Search">
+                        </div> -->
+                        <ul class="list-group" id="redSendersList"></ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <%- include('partials/mcs-blue'); %>
+                    <div class="grid mb-5">
+                        <h3 class="grid mb-2">List of all Blue Senders</h3>
+                        <ul class="list-group" id="blueSendersList"></ul>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
-
     </main>
-
     <footer>
-        <% include ../partials/footer %>
     </footer>
-
 </body>
 </html>

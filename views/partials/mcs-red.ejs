@@ -1,0 +1,183 @@
+<div class="grid mb-3" id="ActionFormsRed">
+    <div class="input-group mb-3">
+        <input type="sender" class="form-control" id="getRedSendersIP" placeholder="Enter IP Address of Red MCS">
+        <button type="button" class="btn btn-outline-danger" id="getRedSenders">Get all Senders</button>
+    </div>
+    <div class="grid mb-3" id="SelectAction">
+        <select class="form-select" aria-label="Default select example" id="RedOptions">
+            <option selected value="hideallRed">Select Action</option>
+            <option value="delRedSenders">Delete Senders</option>
+            <option value="addRedSenders">Add Senders</option>
+            <option value="modRedBw">Modify Bandwidths </option>
+        </select> 
+    </div>
+    <div class="grid mb-3" id="delRedSenders">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <h2>Delete a Sender</h2>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Red MCS IP Address</label>
+                    <input type="sender" class="form-control" name="RedDelSendersip" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth</label>
+                    <input type="sender" class="form-control" name="RedDelSendersbandwidth" placeholder="2750 = 2.75Gbps">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth Type</label>
+                    <input type="sender" class="form-control" name="RedDelSendersbwType" placeholder="Typically it's m">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Source IP</label>
+                    <input type="sender" class="form-control" name="RedDelSenderssourceIP" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Destination IP</label>
+                    <input type="sender" class="form-control" name="RedDelSendersdestinationIP" placeholder="224.1.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Incoming Interface ID</label>
+                    <input type="sender" class="form-control" name="RedDelSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Tracking ID</label>
+                    <input type="sender" class="form-control" name="RedDelSenderstrackingID" placeholder="123456789">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <input class="btn btn-secondary" type="submit" value="Submit">
+                </div>
+            </li>
+        </ul> 
+    </div>
+    <div class="grid gap-3" id="addRedSenders" padding="50px">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <h2>Add a Sender</h2>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">IP Address</label>
+                    <input type="sender" class="form-control" name="RedAddSendersip" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth</label>
+                    <input type="sender" class="form-control" name="RedAddSendersbandwidth" placeholder="2750 = 2.75Gbps">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth Type</label>
+                    <input type="sender" class="form-control" name="RedAddSendersbwType" placeholder="Typically it's m">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Source IP</label>
+                    <input type="sender" class="form-control" name="RedAddSenderssourceIP" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Destination IP</label>
+                    <input type="sender" class="form-control" name="RedAddSendersdestinationIP" placeholder="224.1.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Incoming Interface ID</label>
+                    <input type="sender" class="form-control" name="RedAddSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Tracking ID</label>
+                    <input type="sender" class="form-control" name="RedAddSenderstrackingID" placeholder="123456789">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <input class="btn btn-secondary" type="submit" value="Submit">
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="grid gap-3" id="modRedBw">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <h2>Modify a Sender</h2>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">CVX IP Address</label>
+                    <input type="sender" class="form-control" name="RedmodBwip" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth</label>
+                    <input type="sender" class="form-control" name="RedmodBwbandwidth" placeholder="2750 = 2.75Gbps">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Bandwidth Type</label>
+                    <input type="sender" class="form-control" name="RedmodBwbwType" placeholder="Typically it's m">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Source IP</label>
+                    <input type="sender" class="form-control" name="RedmodBwsourceIP" placeholder="192.168.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Destination IP</label>
+                    <input type="sender" class="form-control" name="RedmodBwdestinationIP" placeholder="224.1.1.1">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Incoming Interface ID</label>
+                    <input type="sender" class="form-control" name="RedmodBwinIntID" placeholder="001c.738d.1569-Ethernet5">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="mb-1">
+                    <label for="ipInput" class="form-label">Tracking ID</label>
+                    <input type="sender" class="form-control" name="RedmodBwtrackingID" placeholder="123456789">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <input class="btn btn-secondary" name="SubmitRedMod" type="submit" value="Submit">
+                </div>
+            </li>
+        </ul>
+        
+    </div>
+</div>

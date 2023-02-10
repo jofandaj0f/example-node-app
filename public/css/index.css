@@ -1,0 +1,53 @@
+#redSendersList {
+    background-color: lightgrey;
+}
+#redSendersList .list-group-item .list-group .list-group-item p {
+    font-size: 12px;
+    font-weight: light;
+}
+#redSendersList .list-group-item .list-group .list-group-item h4 {
+    color: rgb(255,102,102);
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+    float: left;
+    text-transform: uppercase;
+}
+#redSendersList .list-group-item .list-group .list-group-item h4 + p { /* Dialogue */
+    padding-left: 100px;
+}
+
+#redSendersList .list-group-item .list-group .list-group-item h4::after {
+    content: ": ";
+}
+
+#blueSendersList {
+    background-color: lightgrey;
+}
+#blueSendersList .list-group-item .list-group .list-group-item p {
+    font-size: 12px;
+    font-weight: light;
+}
+#blueSendersList .list-group-item .list-group .list-group-item h4 {
+    color: rgb(102, 153, 255);
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+    float: left;
+    text-transform: uppercase;
+}
+#blueSendersList .list-group-item .list-group .list-group-item h4 + p { /* Dialogue */
+    padding-left: 100px;
+}
+
+#blueSendersList .list-group-item .list-group .list-group-item h4::after {
+    content: ": ";
+}
+
+.spinner-border {
+    position: fixed;
+}
+
+p {
+    font-weight: bold;
+}

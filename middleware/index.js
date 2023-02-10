@@ -9,7 +9,7 @@ const authService = new AuthService(config.auth.secret);
 
 module.exports = {
 	logger: require('./logger'),
-	expresslogger: require('./expresslogger'),
+	errorlogger: require('./errorlogger'),
 	users: require('./users'),
 	//Connection: conn,
 	poolVision: require('./pooldb'),

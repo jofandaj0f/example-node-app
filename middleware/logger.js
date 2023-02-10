@@ -1,32 +1,25 @@
 'use strict';
-
-const expressWinston = require('express-winston');
 const winston = require('winston');
 
-winston.emitErrs = true;
-
-var logger = new winston.Logger({
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: { service: 'user-service' },
     transports: [
-        new winston.transports.File({
-            level: 'error',
-            filename: './watchtops.log',
-            handleExceptions: true,
-            json: false,
-            maxsize: 5242880, //5MB
-            maxFiles: 5,
-            colorize: false,
-            timestamp:true
-        }),
-        new winston.transports.Console({
-            level: 'debug',
-            handleExceptions: true,
-            json: false,
-            colorize: true,
-            timestamp:true
-        })
+      //
+      // - Write all logs with importance level of `error` or less to `error.log`
+      // - Write all logs with importance level of `info` or less to `combined.log`
+      //
+      new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      new winston.transports.File({ filename: 'combined.log' }),
     ],
-    exitOnError: false
-});
+  });
+
+  if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+      format: winston.format.simple()
+    }));
+  }
 
 module.exports = logger
 module.exports.stream = {
