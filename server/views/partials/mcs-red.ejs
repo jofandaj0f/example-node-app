@@ -1,17 +1,17 @@
-<div class="grid mb-3" id="ActionFormsBlue">
+<div class="grid mb-3" id="ActionFormsRed">
     <div class="input-group mb-3">
-        <input type="sender" class="form-control" id="getBlueSendersIP" placeholder="Enter IP Address of Blue MCS">
-        <button type="button" class="btn btn-outline-primary" id="getBlueSenders">Get all Senders</button>
+        <input type="sender" class="form-control" id="getRedSendersIP" placeholder="Enter IP Address of Red MCS">
+        <button type="button" class="btn btn-outline-danger" id="getRedSenders">Get all Senders</button>
     </div>
     <div class="grid mb-3" id="SelectAction">
-        <select class="form-select" aria-label="Default select example" id="BlueOptions">
-            <option selected value="hideallBlue">Select Action</option>
-            <option value="delBlueSenders">Delete Senders</option>
-            <option value="addBlueSenders">Add Senders</option>
-            <option value="modBlueBw">Modify Bandwidths </option>
+        <select class="form-select" aria-label="Default select example" id="RedOptions">
+            <option selected value="hideallRed">Select Action</option>
+            <option value="delRedSenders">Delete Senders</option>
+            <option value="addRedSenders">Add Senders</option>
+            <option value="modRedBw">Modify Bandwidths </option>
         </select> 
     </div>
-    <div class="grid mb-3" id="delBlueSenders" >
+    <div class="grid mb-3" id="delRedSenders">
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="mb-1">
@@ -20,44 +20,44 @@
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
-                    <label for="ipInput" class="form-label">Blue MCS IP Address</label>
-                    <input type="sender" class="form-control" id="BlueDelSendersip" placeholder="192.168.1.1">
+                    <label for="ipInput" class="form-label">Red MCS IP Address</label>
+                    <input type="sender" class="form-control" for="Red" name="DelSendersip" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth</label>
-                    <input type="sender" class="form-control" id="BlueDelSendersbandwidth" placeholder="2750 = 2.75Gbps">
+                    <input type="sender" class="form-control" for="Red" name="DelSendersbandwidth" placeholder="2750 = 2.75Gbps">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth Type</label>
-                    <input type="sender" class="form-control" id="BlueDelSendersbwType" placeholder="Typically it's m">
+                    <input type="sender" class="form-control" for="Red" name="DelSendersbwType" placeholder="Typically it's m">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Source IP</label>
-                    <input type="sender" class="form-control" id="BlueDelSenderssourceIP" placeholder="192.168.1.1">
+                    <input type="sender" class="form-control" for="Red" name="DelSenderssourceIP" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Destination IP</label>
-                    <input type="sender" class="form-control" id="BlueDelSendersdestinationIP" placeholder="224.1.1.1">
+                    <input type="sender" class="form-control" for="Red" name="DelSendersdestinationIP" placeholder="224.1.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Incoming Interface ID</label>
-                    <input type="sender" class="form-control" id="BlueDelSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
+                    <input type="sender" class="form-control" for="Red" name="DelSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Tracking ID</label>
-                    <input type="sender" class="form-control" id="BlueDelSenderstrackingID" placeholder="123456789">
+                    <input type="sender" class="form-control" for="Red" name="DelSenderstrackingID" placeholder="123456789">
                 </div>
             </li>
             <li class="list-group-item">
@@ -65,9 +65,9 @@
                     <input class="btn btn-secondary" type="submit" value="Submit">
                 </div>
             </li>
-        </ul>
+        </ul> 
     </div>
-    <div id="addBlueSenders" padding="50px">
+    <div class="grid gap-3" id="addRedSenders" padding="50px">
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="mb-1">
@@ -77,43 +77,43 @@
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">IP Address</label>
-                    <input type="sender" class="form-control" id="BlueAddSendersip" placeholder="192.168.1.1">
+                    <input type="sender" class="form-control" for="Red" name="AddSendersip" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth</label>
-                    <input type="sender" class="form-control" id="BlueAddSendersbandwidth" placeholder="2750 = 2.75Gbps">
+                    <input type="sender" class="form-control" for="Red" name="AddSendersbandwidth" placeholder="2750 = 2.75Gbps">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth Type</label>
-                    <input type="sender" class="form-control" id="BlueAddSendersbwType" placeholder="Typically it's m">
+                    <input type="sender" class="form-control" for="Red" name="AddSendersbwType" placeholder="Typically it's m">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Source IP</label>
-                    <input type="sender" class="form-control" id="BlueAddSenderssourceIP" placeholder="192.168.1.1">
+                    <input type="sender" class="form-control" for="Red" name="AddSenderssourceIP" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Destination IP</label>
-                    <input type="sender" class="form-control" id="BlueAddSendersdestinationIP" placeholder="224.1.1.1">
+                    <input type="sender" class="form-control" for="Red" name="AddSendersdestinationIP" placeholder="224.1.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Incoming Interface ID</label>
-                    <input type="sender" class="form-control" id="BlueAddSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
+                    <input type="sender" class="form-control" for="Red" name="AddSendersinIntID" placeholder="001c.738d.1569-Ethernet5">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Tracking ID</label>
-                    <input type="sender" class="form-control" id="BlueAddSenderstrackingID" placeholder="123456789">
+                    <input type="sender" class="form-control" for="Red" name="AddSenderstrackingID" placeholder="123456789">
                 </div>
             </li>
             <li class="list-group-item">
@@ -123,7 +123,7 @@
             </li>
         </ul>
     </div>
-    <div id="modBlueBw" padding="50px">
+    <div class="grid gap-3" id="modRedBw">
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="mb-1">
@@ -133,46 +133,51 @@
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">CVX IP Address</label>
-                    <input type="sender" class="form-control" id="BluemodBwip" placeholder="192.168.1.1">
+                    <input type="sender" class="form-control" for="Red" name="modBwip" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth</label>
-                    <input type="sender" class="form-control" id="BluemodBwbandwidth" placeholder="2750 = 2.75Gbps">
+                    <input type="sender" class="form-control" for="Red" name="modBwbandwidth" placeholder="2750 = 2.75Gbps">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Bandwidth Type</label>
-                    <input type="sender" class="form-control" id="BluemodBwbwType" placeholder="Typically it's m">
+                    <input type="sender" class="form-control" for="Red" name="modBwbwType" placeholder="Typically it's m">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Source IP</label>
-                    <input type="sender" class="form-control" id="BluemodBwsourceIP" placeholder="192.168.1.1">
+                    <input type="sender" class="form-control" for="Red" name="modBwsourceIP" placeholder="192.168.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Destination IP</label>
-                    <input type="sender" class="form-control" id="BluemodBwdestinationIP" placeholder="224.1.1.1">
+                    <input type="sender" class="form-control" for="Red" name="modBwdestinationIP" placeholder="224.1.1.1">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Incoming Interface ID</label>
-                    <input type="sender" class="form-control" id="BluemodBwinIntID" placeholder="001c.738d.1569-Ethernet5">
+                    <input type="sender" class="form-control" for="Red" name="modBwinIntID" placeholder="001c.738d.1569-Ethernet5">
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="mb-1">
                     <label for="ipInput" class="form-label">Tracking ID</label>
-                    <input type="sender" class="form-control" id="BluemodBwtrackingID" placeholder="123456789">
+                    <input type="sender" class="form-control" for="Red" name="modBwtrackingID" placeholder="123456789">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div>
+                    <input class="btn btn-secondary" name="SubmitRedMod" type="submit" value="Submit">
                 </div>
             </li>
         </ul>
-        <input class="btn btn-secondary" type="submit" value="Submit">
+        
     </div>
 </div>

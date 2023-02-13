@@ -1,10 +1,25 @@
 'use strict';
-
+let reqBody = {
+	"data": [
+		{
+			"destinationIP": "239.101.194.100",
+			"sourceIP": "10.239.129.30",
+			"bandwidth": 1,
+			"bwType": "m",
+			"inIntfID": "94:8e:d3:1b:7e:d3-Ethernet4"
+		}
+	],
+	"flow-action": "delSenders",
+	"transactionID": "test",
+	"trackingID": 892244
+}
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const { mcsErrorCodes } = require('../middleware');
 const logger = require('../middleware').logger;
 const logError = require('../middleware').errorlogger;
+const MCS = require('../middleware').MCS;
 
 let goodRes = {
     "messages": [],
@@ -33,29 +48,21 @@ let goodRes = {
 }
 
 router.post('/delete-sender', function(req, res) {
-	let reqBody = {
-		"data": [
-			{
-				"destinationIP": "239.101.194.100",
-				"sourceIP": "10.239.129.30",
-				"bandwidth": 1,
-				"bwType": "m",
-				"inIntfID": "94:8e:d3:1b:7e:d3-Ethernet4"
-			}
-		],
-		"flow-action": "delSenders",
-		"transactionID": "test",
-		"trackingID": 892244
-	}
-	return res.render('mcs');
+	MCS.senderAction(req,"delSenders").then(result => {
+		res.send(result);
+	});
 });
 
 router.post('/modify-sender', function(req, res) {
-	return res.render('mcs');
+	MCS.senderAction(req,"modBw").then(result => {
+		res.send(result);
+	});
 });
 
 router.post('/add-sender', function(req, res) {
-	return res.render('mcs');
+	MCS.senderAction(req,"addSenders").then(result => {
+		res.send(result);
+	});
 });
 
 router.get('/get-senders', function(req, res) {

@@ -1,8 +1,17 @@
 // import {MCS} from './mcs-ajax.js';
 let reddata, bluedata = [];
+let addressSelectorID = ["#RedDelSendersip", ];
+let bwSelectorID = [];
+let bwTypeSelectorID = [];
+let sourceIpSelectorID = [];
+let destIpSelectorID = [];
+let inIntIdSelectorID = [];
+let trackingIdSelectorID = [];
 
 function copyandpaste(e) {
+    console.log(e.for);
     console.log(e.value);
+
 }
 
 $(document).ready(function() {
@@ -85,7 +94,7 @@ $(document).ready(function() {
                     console.log('Request Status: ' + err.status + ' Status Text: ' + err.statusText + ' ' + err.responseText);
                 },
                 "success": function(res) {
-                    MCS.formatHtml(res, '#redSendersList');
+                    MCS.formatHtml(res, '#redSendersList', "Red");
                     reddata = res;
                 }
             });
@@ -109,7 +118,7 @@ $(document).ready(function() {
                     console.log('Request Status: ' + err.status + ' Status Text: ' + err.statusText + ' ' + err.responseText);
                 },
                 "success": function(res) {
-                    MCS.formatHtml(res, '#blueSendersList');
+                    MCS.formatHtml(res, '#blueSendersList', "Blue");
                     bluedata = res;
                 }
             });
